@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.Instant;
+
 @Builder
 @Data
 public class EmployeeRequest {
@@ -27,8 +29,11 @@ public class EmployeeRequest {
     private String dob;
 
     @Range(min = 0, max = 110, message = "Employee's age must be  between 0-100. ")
-    // @NotBlank(message = "Empty or null Age not is allowed.")
     private double age;
 
     private Grade grade;
+
+    private Instant createdDate;
+
+    private Instant lastModifiedDate;
 }

@@ -5,26 +5,27 @@ import com.sample.cache_impl.model.EmployeePK;
 import com.sample.cache_impl.model.EmployeeRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class EntityToObjectMapper {
 
-    public static EmployeePK getEmployeePK(EmployeeRequest employeeRequest) {
-        return EmployeePK.builder().firstName(employeeRequest.getFirstName()).lastName(employeeRequest.getLastName()).build();
-    }
-
-
-    public static EmployeeEntity getEmployeeEntity(EmployeeRequest employeeRequest) {
-        EmployeePK pk = getEmployeePK(employeeRequest);
-        return EmployeeEntity.builder().employeePK(pk).dob(employeeRequest.getDob()).age(employeeRequest.getAge()).grade(
-                employeeRequest.getGrade()).build();
-    }
-
     public static EmployeeRequest getEmployeeRequest(EmployeeEntity employeeEntity) {
-        return EmployeeRequest.builder().
-                firstName(employeeEntity.getEmployeePK().getFirstName()).
-                lastName(employeeEntity.getEmployeePK().getLastName()).
-                age(employeeEntity.getAge()).grade(employeeEntity.getGrade()).
-                dob(employeeEntity.getDob()).build();
+        EmployeePK pk = employeeEntity.getEmployeePK();
+        return EmployeeRequest.builder().firstName(pk.getFirstName()).lastName(pk.getLastName()).
+                age(employeeEntity.getAge()).dob(employeeEntity.getDob()).
+                grade(employeeEntity.getGrade()).createdDate(employeeEntity.getCreatedDate()).
+                lastModifiedDate(employeeEntity.getLastModifiedDate()).build();
+    }
+
+
+    public static List<EmployeeRequest> getEmployeeRequest(List<EmployeeEntity> employeeEntityList) {
+        List<EmployeeRequest> list = new ArrayList<>();
+        for (EmployeeEntity e : employeeEntityList) {
+            list.add(getEmployeeRequest(e));
+        }
+        return list;
     }
 
 

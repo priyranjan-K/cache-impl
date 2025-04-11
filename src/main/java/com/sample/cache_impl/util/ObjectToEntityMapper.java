@@ -19,13 +19,5 @@ public class ObjectToEntityMapper {
                 grade(employeeRequest.getGrade()).build();
     }
 
-    public static EmployeeRequest getEmployeeRequest(EmployeeEntity employeeEntity) {
-        return EmployeeRequest.builder().
-                firstName(employeeEntity.getEmployeePK().getFirstName()).
-                lastName(employeeEntity.getEmployeePK().getLastName()).
-                age(employeeEntity.getAge()).grade(employeeEntity.getGrade()).
-                dob(employeeEntity.getDob()).build();
-    }
-
 
 }
