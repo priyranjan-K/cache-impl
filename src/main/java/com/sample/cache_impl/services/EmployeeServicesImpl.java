@@ -80,7 +80,6 @@ public class EmployeeServicesImpl implements EmployeeServices {
     public ResponseEntity<List<EmployeeRequest>> fetchAllRecord() {
         try {
             LOGGER.info("Please Wait!...fetching all employee record");
-            List<EmployeeEntity> k = employeeRepository.findAll();
             return ResponseEntity.status(HttpStatus.OK).
                     headers(ResponseGenerator.getHeader()).body(EntityToObjectMapper.getEmployeeRequest(employeeRepository.findAll()));
         } catch (Exception e) {
