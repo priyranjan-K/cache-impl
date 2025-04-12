@@ -1,6 +1,5 @@
 package com.sample.cache_impl.services;
 
-import com.sample.cache_impl.exception.CustomEmployeeException;
 import com.sample.cache_impl.model.EmployeeEntity;
 import com.sample.cache_impl.model.EmployeeRequest;
 import com.sample.cache_impl.model.EmployeePK;
@@ -9,7 +8,6 @@ import com.sample.cache_impl.util.EntityToObjectMapper;
 import com.sample.cache_impl.util.ObjectToEntityMapper;
 import com.sample.cache_impl.util.ResponseGenerator;
 import jakarta.persistence.EntityNotFoundException;
-import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +47,10 @@ public class EmployeeServicesImpl implements EmployeeServices {
                         + employeeId.getFirstName() + " and LastName = " + employeeId.getLastName());
             }
         } catch (EntityNotFoundException e) {
+            LOGGER.error(e.getMessage());
             throw e;
         } catch (Exception e) {
+            LOGGER.error("Error occurred while fetching entity with error message = {}", e.getMessage());
             throw CUSTOM_UPDATE_ERROR;
         }
     }
@@ -62,6 +62,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
             employeeRepository.save(ObjectToEntityMapper.getEmployeeEntity(employeeRequest));
             return INSERT_SUCCESS_MESSAGE;
         } catch (Exception e) {
+            LOGGER.error("Error occurred while inserting the record with error message = {}", e.getMessage());
             throw CUSTOM_INSERT_ERROR;
         }
     }
@@ -80,6 +81,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
             }
 
         } catch (Exception e) {
+            LOGGER.error("Error occurred while deleting the record with error message = {}", e.getMessage());
             throw CUSTOM_DELETE_ERROR;
         }
     }
@@ -91,6 +93,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
             return ResponseEntity.status(HttpStatus.OK).
                     headers(ResponseGenerator.getHeader()).body(EntityToObjectMapper.getEmployeeRequestList(employeeRepository.findAll()));
         } catch (Exception e) {
+            LOGGER.error("Error occurred while fetching the record with error message = {}", e.getMessage());
             throw CUSTOM_FETCH_ERROR;
         }
 
