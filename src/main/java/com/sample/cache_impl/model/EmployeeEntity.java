@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import static com.sample.cache_impl.util.Constants.EMPLOYEE;
 
 @Entity
-@Table(name = EMPLOYEE)
+@Table(name = EMPLOYEE, indexes = @Index(name = "employee_index", columnList = "firstName, lastName", unique = true))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,7 +27,7 @@ public class EmployeeEntity implements Serializable {
     @EmbeddedId
     private EmployeePK employeePK;
 
-    @Column(length = 11, nullable = false)
+    @Column(length = 10, nullable = false)
     private String dob;
 
     @Column(nullable = false)

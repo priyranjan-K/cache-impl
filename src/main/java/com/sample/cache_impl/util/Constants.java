@@ -28,6 +28,6 @@ public class Constants {
     public final static String UPDATED_SUCCESSFULLY = "Record updated successfully.";
     public final static String DELETED_SUCCESSFULLY = "Record deleted successfully.";
     public final static String INSERTED_SUCCESSFULLY = "Record saved successfully.";
-
+    public final static String RECORD_NOT_FOUND = "Record does not exist.";
 
 }

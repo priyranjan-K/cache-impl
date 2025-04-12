@@ -41,7 +41,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
             if (employeeEntity != null) {
                 employeeRepository.save(ObjectToEntityMapper.getEmployeeEntity(employeeRequest));
             }
-                return UPDATE_SUCCESS_MESSAGE;
+            return UPDATE_SUCCESS_MESSAGE;
         } catch (Exception e) {
             throw CUSTOM_UPDATE_ERROR;
         }
@@ -62,8 +62,15 @@ public class EmployeeServicesImpl implements EmployeeServices {
     public ResponseEntity<String> deleteRecordByFullName(EmployeePK employeeId) {
         try {
             LOGGER.info("Please Wait!...deleting record");
-            employeeRepository.deleteById(employeeId);
-            return DELETE_SUCCESS_MESSAGE;
+            EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElse(null);
+            if (employeeEntity != null) {
+                employeeRepository.deleteById(employeeId);
+                return DELETE_SUCCESS_MESSAGE;
+            } else {
+                LOGGER.info("Opps! Record does not exist.");
+                return RECORD_NOT_FOUND_MESSAGE;
+            }
+
         } catch (Exception e) {
             throw CUSTOM_DELETE_ERROR;
         }

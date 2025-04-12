@@ -16,9 +16,9 @@ public class EmployeePK implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false,columnDefinition = "VARCHAR(20) COLLATE utf8mb4_bin")
     private String firstName;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false, columnDefinition = "VARCHAR(20) COLLATE utf8mb4_bin")
     private String lastName;
 }

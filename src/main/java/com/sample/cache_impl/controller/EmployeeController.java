@@ -49,9 +49,9 @@ public class EmployeeController {
     }
 
     @DeleteMapping(value = DELETE_BY_FULL_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> deleteByFullName(@Valid @RequestParam EmployeePK employeeId) {
+    public ResponseEntity<String> deleteByFullName(@RequestParam String firstName, @RequestParam String lastName) {
         LOGGER.info("Request received to delete employee details.");
-        return employeeServices.deleteRecordByFullName(employeeId);
+        return employeeServices.deleteRecordByFullName(EmployeePK.builder().firstName(firstName).lastName(lastName).build());
     }
 
 

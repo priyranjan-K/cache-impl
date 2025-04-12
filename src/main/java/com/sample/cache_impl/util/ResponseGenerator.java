@@ -14,6 +14,7 @@ public class ResponseGenerator {
     public static final ResponseEntity<String> UPDATE_SUCCESS_MESSAGE = ResponseEntity.status(HttpStatus.OK).headers(getHeader()).body(UPDATED_SUCCESSFULLY);
     public static final ResponseEntity<String> DELETE_SUCCESS_MESSAGE = ResponseEntity.status(HttpStatus.OK).headers(getHeader()).body(DELETED_SUCCESSFULLY);
     public static final ResponseEntity<String> INSERT_SUCCESS_MESSAGE = ResponseEntity.status(HttpStatus.CREATED).headers(getHeader()).body(INSERTED_SUCCESSFULLY);
+    public static final ResponseEntity<String> RECORD_NOT_FOUND_MESSAGE = ResponseEntity.status(HttpStatus.NOT_FOUND).headers(getHeader()).body(RECORD_NOT_FOUND);
 
 
     public static HttpHeaders getHeader() {
