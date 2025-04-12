@@ -42,10 +42,10 @@ public class EmployeeController {
     }
 
 
-    @PutMapping(value = UPDATE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateEmployeeObject(@Valid @RequestBody EmployeeRequest employeeRequest) {
+    @GetMapping(value = FIND_BY_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EmployeeRequest> getByName(@RequestParam String firstName, @RequestParam String lastName) {
         LOGGER.info("Request received to update employee details.");
-        return employeeServices.updateRecord(employeeRequest);
+        return employeeServices.getRecord(EmployeePK.builder().firstName(firstName).lastName(lastName).build());
     }
 
     @DeleteMapping(value = DELETE_BY_FULL_NAME, produces = MediaType.APPLICATION_JSON_VALUE)

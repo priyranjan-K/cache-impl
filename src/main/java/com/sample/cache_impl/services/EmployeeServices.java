@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public interface EmployeeServices {
 
-    ResponseEntity<String> updateRecord(EmployeeRequest employeeRequest);
+    ResponseEntity<EmployeeRequest> getRecord(EmployeePK employeeId);
 
     ResponseEntity<String> addRecord(EmployeeRequest employeeRequest);
 

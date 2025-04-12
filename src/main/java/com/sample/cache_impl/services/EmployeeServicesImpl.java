@@ -1,5 +1,6 @@
 package com.sample.cache_impl.services;
 
+import com.sample.cache_impl.exception.CustomEmployeeException;
 import com.sample.cache_impl.model.EmployeeEntity;
 import com.sample.cache_impl.model.EmployeeRequest;
 import com.sample.cache_impl.model.EmployeePK;
@@ -7,6 +8,8 @@ import com.sample.cache_impl.repository.EmployeeRepository;
 import com.sample.cache_impl.util.EntityToObjectMapper;
 import com.sample.cache_impl.util.ObjectToEntityMapper;
 import com.sample.cache_impl.util.ResponseGenerator;
+import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.sample.cache_impl.exception.CustomEmployeeException.*;
 import static com.sample.cache_impl.util.ResponseGenerator.*;
@@ -34,14 +36,20 @@ public class EmployeeServicesImpl implements EmployeeServices {
 
 
     @Override
-    public ResponseEntity<String> updateRecord(EmployeeRequest employeeRequest) {
+    public ResponseEntity<EmployeeRequest> getRecord(EmployeePK employeeId) {
         try {
-            LOGGER.info("Please Wait!...updating record");
-            EmployeeEntity employeeEntity = employeeRepository.findById(ObjectToEntityMapper.getEmployeePK(employeeRequest)).orElse(null);
+            LOGGER.info("Please Wait!...fetching record");
+            EmployeeEntity employeeEntity = employeeRepository.findById(employeeId).orElse(null);
             if (employeeEntity != null) {
-                employeeRepository.save(ObjectToEntityMapper.getEmployeeEntity(employeeRequest));
+                return ResponseEntity.status(HttpStatus.OK).
+                        headers(ResponseGenerator.getHeader()).body(EntityToObjectMapper.getEmployeeRequest(employeeEntity));
+            } else {
+                LOGGER.info("Opps! Record does not exist.");
+                throw new EntityNotFoundException("Record not found for the firstName = "
+                        + employeeId.getFirstName() + " and LastName = " + employeeId.getLastName());
             }
-            return UPDATE_SUCCESS_MESSAGE;
+        } catch (EntityNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             throw CUSTOM_UPDATE_ERROR;
         }
@@ -81,7 +89,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
         try {
             LOGGER.info("Please Wait!...fetching all employee record");
             return ResponseEntity.status(HttpStatus.OK).
-                    headers(ResponseGenerator.getHeader()).body(EntityToObjectMapper.getEmployeeRequest(employeeRepository.findAll()));
+                    headers(ResponseGenerator.getHeader()).body(EntityToObjectMapper.getEmployeeRequestList(employeeRepository.findAll()));
         } catch (Exception e) {
             throw CUSTOM_FETCH_ERROR;
         }

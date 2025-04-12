@@ -20,7 +20,7 @@ public class EntityToObjectMapper {
     }
 
 
-    public static List<EmployeeRequest> getEmployeeRequest(List<EmployeeEntity> employeeEntityList) {
+    public static List<EmployeeRequest> getEmployeeRequestList(List<EmployeeEntity> employeeEntityList) {
         List<EmployeeRequest> list = new ArrayList<>();
         for (EmployeeEntity e : employeeEntityList) {
             list.add(getEmployeeRequest(e));

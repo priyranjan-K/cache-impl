@@ -2,6 +2,7 @@ package com.sample.cache_impl.exception;
 
 import com.sample.cache_impl.model.EmployeeValidatorErrorResponse;
 import com.sample.cache_impl.model.ErrorResponse;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class CustomEmployeeExceptionHandler {
 
     private static final String GENERIC_ERROR_CODE = "GEN-001";
     private static final String VALIDATE_ERROR_CODE = "VAL-001";
+    private static final String NOT_FOUND_ERROR_CODE = "ERR-NOT-FOUND-001";
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<EmployeeValidatorErrorResponse> exception(MethodArgumentNotValidException methodArgumentNotValidException) {
@@ -33,5 +35,12 @@ public class CustomEmployeeExceptionHandler {
     public ResponseEntity<ErrorResponse> generic(Exception exception) {
         ErrorResponse errorResponse = ErrorResponse.builder().errorMessage(exception.getMessage()).errorCode(GENERIC_ERROR_CODE).build();
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> entityNotFoundException(EntityNotFoundException entityNotFoundException) {
+        ErrorResponse errorResponse = ErrorResponse.builder().errorMessage(entityNotFoundException.getMessage()).
+                errorCode(NOT_FOUND_ERROR_CODE).build();
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

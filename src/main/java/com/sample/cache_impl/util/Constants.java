@@ -6,7 +6,7 @@ public class Constants {
     public final static String BASE_CONTEXT_PATH = "/";
     public final static String FETCH_ALL = "fetchAll";
     public final static String SAVE = "save";
-    public final static String UPDATE = "update";
+    public final static String FIND_BY_NAME = "getByName";
     public final static String DELETE_BY_FULL_NAME = "deleteByFullName";
 
 
