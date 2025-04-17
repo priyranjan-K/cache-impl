@@ -6,11 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 @Builder
 @Data
-public class EmployeeRequest {
+public class EmployeeRequest implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Size.List({
             @Size(min = 3, message = "Minimun length of FirstName should be 3."),
             @Size(max = 20, message = "Maximun length of FirstName should be 20.")

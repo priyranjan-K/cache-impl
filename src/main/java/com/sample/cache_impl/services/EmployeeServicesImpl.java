@@ -11,6 +11,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
 
 
     @Override
+    @Cacheable(value = "employeeCache", key = "#employeeId")
     public ResponseEntity<EmployeeRequest> getRecord(EmployeePK employeeId) {
         try {
             LOGGER.info("Please Wait!...fetching record");
@@ -56,6 +60,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
     }
 
     @Override
+    @CachePut(value = "employeeCache", key = "#employeeRequest.firstName + '_' + #employeeRequest.lastName")
     public ResponseEntity<String> addRecord(EmployeeRequest employeeRequest) {
         try {
             LOGGER.info("Please Wait!...adding record");
@@ -68,6 +73,7 @@ public class EmployeeServicesImpl implements EmployeeServices {
     }
 
     @Override
+    @CacheEvict(value = "employeeCache", key = "#employeeId.firstName + '_' + #employeeId.lastName")
     public ResponseEntity<String> deleteRecordByFullName(EmployeePK employeeId) {
         try {
             LOGGER.info("Please Wait!...deleting record");
