@@ -12,6 +12,9 @@ import java.util.List;
 public class EntityToObjectMapper {
 
     public static EmployeeRequest getEmployeeRequest(EmployeeEntity employeeEntity) {
+        if (employeeEntity == null) {
+            return null;
+        }
         EmployeePK pk = employeeEntity.getEmployeePK();
         return EmployeeRequest.builder().firstName(pk.getFirstName()).lastName(pk.getLastName()).
                 age(employeeEntity.getAge()).dob(employeeEntity.getDob()).

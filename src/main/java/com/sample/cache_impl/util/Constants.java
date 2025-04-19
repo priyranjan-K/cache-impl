@@ -15,6 +15,8 @@ public class Constants {
     public final static String UPDATE_ERROR = "Unable to update employee record.";
     public final static String DELETE_ERROR = "Unable to delete employee record.";
     public final static String FETCH_ERROR = "Unable to fetch employee record.";
+    public final static String REDIS_CLEAN_MESSAGE = "Successfully clear the redis cache.";
+    public final static String REDIS_UNCLEAN_MESSAGE = "Unable to clear the redis cache.";
 
 
     //ERROR CODE

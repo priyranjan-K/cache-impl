@@ -18,4 +18,6 @@ public interface EmployeeServices {
 
     ResponseEntity<List<EmployeeRequest>> fetchAllRecord();
 
+    ResponseEntity<String> crearRedisEntries();
+
 }

@@ -3,6 +3,7 @@ package com.sample.cache_impl.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.*;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @Builder
 @Embeddable
 @EqualsAndHashCode
+@Cacheable
 public class EmployeePK implements Serializable {
 
     private static final long serialVersionUID = 1L;

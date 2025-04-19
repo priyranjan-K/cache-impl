@@ -11,6 +11,7 @@ public class CustomEmployeeException extends RuntimeException {
     public static final CustomEmployeeException CUSTOM_UPDATE_ERROR = new CustomEmployeeException(UPDATE_ERROR, UPDATE_ERROR_CODE);
     public static final CustomEmployeeException CUSTOM_DELETE_ERROR = new CustomEmployeeException(DELETE_ERROR, DELETE_ERROR_CODE);
     public static final CustomEmployeeException CUSTOM_FETCH_ERROR = new CustomEmployeeException(FETCH_ERROR, FETCH_ERROR_CODE);
+    public static final CustomEmployeeException CUSTOM_REDIS_ERROR = new CustomEmployeeException(REDIS_UNCLEAN_MESSAGE, FETCH_ERROR_CODE);
 
     public CustomEmployeeException(String errorMessage) {
         super(errorMessage);
