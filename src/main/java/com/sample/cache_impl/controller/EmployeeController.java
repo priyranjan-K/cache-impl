@@ -31,33 +31,33 @@ public class EmployeeController {
 
     @GetMapping(value = FETCH_ALL, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<EmployeeRequest>> fetchAll() {
-        LOGGER.info("Request received to fetch all employee details.");
+        LOGGER.info("Received request to fetch all employee details.");
         return employeeServices.fetchAllRecord();
     }
 
     @PostMapping(value = SAVE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> add(@Valid @RequestBody EmployeeRequest employeeRequest) {
-        LOGGER.info("Request received to add employee details.");
+        LOGGER.info("Received request to add employee details.");
         return employeeServices.addRecord(employeeRequest);
     }
 
 
     @GetMapping(value = FIND_BY_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmployeeRequest> getByName(@RequestParam String firstName, @RequestParam String lastName) {
-        LOGGER.info("Request received to update employee details.");
+        LOGGER.info("Received request to fetch employee details by its name.");
         return employeeServices.getRecord(EmployeePK.builder().firstName(firstName).lastName(lastName).build());
     }
 
     @DeleteMapping(value = DELETE_BY_FULL_NAME, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> deleteByFullName(@RequestParam String firstName, @RequestParam String lastName) {
-        LOGGER.info("Request received to delete employee details.");
+        LOGGER.info("Received request to delete employee details.");
         return employeeServices.deleteRecordByFullName(EmployeePK.builder().firstName(firstName).lastName(lastName).build());
     }
 
 
     @DeleteMapping(value = CLEAR_CACHE)
     public ResponseEntity<String> clearCache() {
-        LOGGER.info("Request received to clear redis cache.");
+        LOGGER.info("Received request to clear redis cache.");
         return employeeServices.crearRedisEntries();
     }
 
