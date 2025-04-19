@@ -55,8 +55,8 @@ public class EmployeeController {
     }
 
 
-    @DeleteMapping(value = "/clearCache")
-    public ResponseEntity<String> clearCache(){
+    @DeleteMapping(value = CLEAR_CACHE)
+    public ResponseEntity<String> clearCache() {
         LOGGER.info("Request received to clear redis cache.");
         return employeeServices.crearRedisEntries();
     }
