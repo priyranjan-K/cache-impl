@@ -34,7 +34,7 @@ public class EmployeeRequest implements Serializable {
     @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$", message = "Invalid DOB format, expected dd/MM/yyyy")
     private String dob;
 
-    @Range(min = 0, max = 110, message = "Employee's age must be  between 0-100. ")
+    @Range(min = 0, max = 110, message = "Employee's age must be  between 0-100.")
     private double age;
 
     private Grade grade;
