@@ -1,6 +1,7 @@
 package com.sample.cache_impl.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sample.cache_impl.util.DateFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -31,7 +32,7 @@ public class EmployeeRequest implements Serializable {
     private String lastName;
 
     @NotBlank(message = "DOB is mandatory.")
-    @Pattern(regexp = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$", message = "Invalid DOB format, expected dd/MM/yyyy")
+    @DateFormat(message = "Invalid DOB format, expected dd/MM/yyyy")
     private String dob;
 
     @Range(min = 0, max = 110, message = "Employee's age must be  between 0-100.")
