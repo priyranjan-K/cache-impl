@@ -37,16 +37,13 @@ class ValidDateValidator implements ConstraintValidator<DateFormat, String> {
         if (value == null || value.isEmpty()) {
             return true; // Null or empty value can be validated by @NotNull if needed
         }
-
-        // Now validate the actual date using SimpleDateFormat
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
-        sdf.setLenient(false); // This makes sure the date is strictly validated
-
+        sdf.setLenient(false);
         try {
             Date parsedDate = sdf.parse(value);
-            return parsedDate != null; // If parsedDate is valid, the date exists
+            return parsedDate != null;
         } catch (ParseException e) {
-            return false; // If exception occurs, the date is not valid
+            return false;
         }
     }
 }
