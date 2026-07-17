@@ -31,6 +31,17 @@
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<!-- Security scanner versions -->
+		<dependency-check-maven.version>10.0.3</dependency-check-maven.version>
+		<spotbugs-maven-plugin.version>4.8.6.2</spotbugs-maven-plugin.version>
+		<findsecbugs-plugin.version>1.13.0</findsecbugs-plugin.version>
+		<!--
+		  OWASP Dependency-Check fail threshold:
+		    CVSS >= 7.0 = HIGH vulnerability → pipeline fails
+		    CVSS >= 9.0 = CRITICAL vulnerability → pipeline fails
+		  Set to 10 to disable failing the build (report only).
+		-->
+		<owasp.failBuildOnCVSS>7</owasp.failBuildOnCVSS>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -129,6 +140,78 @@
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>4.0.0.4121</version>
+			</plugin>
+
+			<!-- ═══════════════════════════════════════════════════════════════
+			     OWASP Dependency-Check
+			     Scans Maven dependencies against the NVD CVE database.
+			     Fails build if CVSS score >= owasp.failBuildOnCVSS (default: 7)
+			     Run manually: mvn dependency-check:check
+			     ═══════════════════════════════════════════════════════════════ -->
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>${dependency-check-maven.version}</version>
+				<configuration>
+					<!-- Fail if any dependency has a CVSS score >= 7 (HIGH) -->
+					<failBuildOnCVSS>${owasp.failBuildOnCVSS}</failBuildOnCVSS>
+					<!-- Generate HTML, XML, and JSON reports -->
+					<formats>
+						<format>HTML</format>
+						<format>XML</format>
+						<format>JSON</format>
+					</formats>
+					<!-- Suppression file to manage false positives -->
+					<suppressionFiles>
+						<suppressionFile>owasp-suppressions.xml</suppressionFile>
+					</suppressionFiles>
+					<!-- Skip test-scoped dependencies from scan -->
+					<skipTestScope>false</skipTestScope>
+					<!-- Retry on NVD API timeout -->
+					<nvdApiDelay>4000</nvdApiDelay>
+					<nvdMaxRetryCount>10</nvdMaxRetryCount>
+				</configuration>
+			</plugin>
+
+			<!-- ═══════════════════════════════════════════════════════════════
+			     SpotBugs + Find Security Bugs (SAST)
+			     Detects security bugs in Java source code:
+			     SQL Injection, XSS, Path Traversal, Insecure Deserialization, etc.
+			     Run manually: mvn spotbugs:check
+			     View GUI:     mvn spotbugs:gui
+			     ═══════════════════════════════════════════════════════════════ -->
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${spotbugs-maven-plugin.version}</version>
+				<configuration>
+					<!-- Max effort = most thorough analysis -->
+					<effort>Max</effort>
+					<!-- Low threshold = report even low-priority security bugs -->
+					<threshold>Low</threshold>
+					<!-- Fail the build if any bug is found -->
+					<failOnError>true</failOnError>
+					<!-- Only flag SECURITY-category bugs (not style/performance) -->
+					<includeFilterFile>spotbugs-security-include.xml</includeFilterFile>
+					<!-- SpotBugs plugins: Find Security Bugs for security rules -->
+					<plugins>
+						<plugin>
+							<groupId>com.h3xstream.findsecbugs</groupId>
+							<artifactId>findsecbugs-plugin</artifactId>
+							<version>${findsecbugs-plugin.version}</version>
+						</plugin>
+					</plugins>
+				</configuration>
+				<executions>
+					<!-- Bind spotbugs:check to the verify phase so it runs with mvn verify -->
+					<execution>
+						<id>security-spotbugs-check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

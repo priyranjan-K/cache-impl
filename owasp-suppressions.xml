@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  OWASP Dependency-Check Suppression File
+  =========================================
+  Use this file to suppress FALSE POSITIVES or ACCEPTED RISKS.
+
+  How to add a suppression:
+  1. Run the scan and note the CVE ID shown in the report (e.g., CVE-2021-44228)
+  2. Add a <suppress> block below with:
+     - <notes>  : Why you are suppressing (required for audit trail)
+     - <cve>    : The exact CVE ID to suppress
+     - <gav>    : (Optional) Restrict suppression to a specific groupId:artifactId:version
+
+  ⚠️  WARNING: Only suppress after reviewing the CVE and confirming it does not
+  apply to your usage of the library. Document the reason in <notes>.
+
+  Reference: https://jeremylong.github.io/DependencyCheck/general/suppression.html
+-->
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+
+  <!--
+    TEMPLATE — Copy and fill in for each suppression you need:
+
+    <suppress>
+      <notes>
+        [DATE] [AUTHOR]
+        Reason: CVE-XXXX-XXXXX does not affect this project because [explain why].
+        E.g., "We don't use the vulnerable API path" or "This is a test-scope dependency only".
+        Reviewed by: [name/ticket]
+      </notes>
+      <cve>CVE-XXXX-XXXXX</cve>
+    </suppress>
+  -->
+
+  <!--
+    EXAMPLE: Suppressing a false positive scoped to a specific library
+    Remove or adjust this example once you have real suppressions.
+
+    <suppress>
+      <notes>
+        2024-01-01 Team Lead
+        False positive: This CVE targets the CLI mode of the library which we do not use.
+        Ticket: SEC-001
+      </notes>
+      <gav regex="true">^com\.example:some-library:.*$</gav>
+      <cve>CVE-2023-99999</cve>
+    </suppress>
+  -->
+
+</suppressions>

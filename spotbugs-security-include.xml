@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SpotBugs Security Include Filter
+  ===================================
+  This filter restricts SpotBugs to ONLY report bugs in the SECURITY category.
+  Without this filter, SpotBugs would report performance, correctness, and style
+  bugs as well — causing false alarm failures in the security pipeline.
+
+  Security bug categories covered by Find Security Bugs:
+    - SQL Injection (SQLI)
+    - Cross-Site Scripting / XSS
+    - Path Traversal (PT)
+    - Insecure Deserialization
+    - Command Injection
+    - LDAP Injection
+    - XML Injection / XXE
+    - Weak cryptography (DES, MD5, SHA1 for passwords)
+    - Hardcoded credentials / secrets
+    - Open Redirect
+    - Server-Side Request Forgery (SSRF)
+    - Spring Security misconfigurations
+
+  Reference: https://find-sec-bugs.github.io/bugs.htm
+-->
+<FindBugsFilter
+  xmlns="https://github.com/spotbugs/filter/3.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0
+                      https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
+
+  <!--
+    Include ALL bugs in the SECURITY category.
+    This is the main gate: only security-related issues fail the build.
+  -->
+  <Match>
+    <Bug category="SECURITY"/>
+  </Match>
+
+  <!--
+    Include MALICIOUS_CODE category: detects code that can be exploited
+    by untrusted callers (e.g., mutable statics, public fields in Serializable classes)
+  -->
+  <Match>
+    <Bug category="MALICIOUS_CODE"/>
+  </Match>
+
+</FindBugsFilter>
